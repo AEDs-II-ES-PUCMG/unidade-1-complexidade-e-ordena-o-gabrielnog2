@@ -137,12 +137,7 @@ public class AppOficina {
             if (id == null) {
                 return null;
             }
-            return buscaBinaria(produtosPorId, id, new Comparator<Object>() {
-                @Override
-                public int compare(Object p, Object obj) {
-                    return Integer.compare(((Produto) p).hashCode(), ((Integer) obj).intValue());
-                }
-            });
+            return buscaBinaria(produtosPorId, id, (p, obj) -> Integer.compare(((Produto) p).hashCode(), ((Integer) obj).intValue()));
         } else if (opcao.intValue() == 2) {
             System.out.print("Digite a descrição: ");
             String desc = teclado.nextLine();
@@ -155,26 +150,23 @@ public class AppOficina {
                 return null;
             }
 
-            return buscaBinaria(produtosPorDescricao, desc, new Comparator<Object>() {
-                @Override
-                public int compare(Object p, Object obj) {
-                    String descricaoProduto = ((Produto) p).getDescricao();
-                    String descricaoBuscada = (String) obj;
+            return buscaBinaria(produtosPorDescricao, desc, (p, obj) -> {
+                String descricaoProduto = ((Produto) p).getDescricao();
+                String descricaoBuscada = (String) obj;
 
-                    if (descricaoProduto != null) {
-                        descricaoProduto = descricaoProduto.trim();
-                    } else {
-                        descricaoProduto = "";
-                    }
-
-                    if (descricaoBuscada != null) {
-                        descricaoBuscada = descricaoBuscada.trim();
-                    } else {
-                        descricaoBuscada = "";
-                    }
-
-                    return descricaoProduto.compareToIgnoreCase(descricaoBuscada);
+                if (descricaoProduto != null) {
+                    descricaoProduto = descricaoProduto.trim();
+                } else {
+                    descricaoProduto = "";
                 }
+
+                if (descricaoBuscada != null) {
+                    descricaoBuscada = descricaoBuscada.trim();
+                } else {
+                    descricaoBuscada = "";
+                }
+
+                return descricaoProduto.compareToIgnoreCase(descricaoBuscada);
             });
         }
         return null;
@@ -229,26 +221,23 @@ public class AppOficina {
         if (opcaoComparador == 2) {
             comp = new ComparadorPorCodigo();
         } else {
-            comp = new Comparator<Produto>() {
-                @Override
-                public int compare(Produto p1, Produto p2) {
-                    String descricao1 = p1.getDescricao();
-                    String descricao2 = p2.getDescricao();
+            comp = (p1, p2) -> {
+                String descricao1 = p1.getDescricao();
+                String descricao2 = p2.getDescricao();
 
-                    if (descricao1 != null) {
-                        descricao1 = descricao1.trim();
-                    } else {
-                        descricao1 = "";
-                    }
-
-                    if (descricao2 != null) {
-                        descricao2 = descricao2.trim();
-                    } else {
-                        descricao2 = "";
-                    }
-
-                    return descricao1.compareToIgnoreCase(descricao2);
+                if (descricao1 != null) {
+                    descricao1 = descricao1.trim();
+                } else {
+                    descricao1 = "";
                 }
+
+                if (descricao2 != null) {
+                    descricao2 = descricao2.trim();
+                } else {
+                    descricao2 = "";
+                }
+
+                return descricao1.compareToIgnoreCase(descricao2);
             };
         }
 
@@ -296,34 +285,26 @@ public class AppOficina {
             }
 
             produtosPorId = Arrays.copyOf(produtos, quantProdutos);
-            Arrays.sort(produtosPorId, new Comparator<Produto>() {
-                @Override
-                public int compare(Produto p1, Produto p2) {
-                    return Integer.compare(p1.hashCode(), p2.hashCode());
-                }
-            });
+            Arrays.sort(produtosPorId, (p1, p2) -> Integer.compare(p1.hashCode(), p2.hashCode()));
 
             produtosPorDescricao = Arrays.copyOf(produtos, quantProdutos);
-            Arrays.sort(produtosPorDescricao, new Comparator<Produto>() {
-                @Override
-                public int compare(Produto p1, Produto p2) {
-                    String descricao1 = p1.getDescricao();
-                    String descricao2 = p2.getDescricao();
+            Arrays.sort(produtosPorDescricao, (p1, p2) -> {
+                String descricao1 = p1.getDescricao();
+                String descricao2 = p2.getDescricao();
 
-                    if (descricao1 != null) {
-                        descricao1 = descricao1.trim();
-                    } else {
-                        descricao1 = "";
-                    }
-
-                    if (descricao2 != null) {
-                        descricao2 = descricao2.trim();
-                    } else {
-                        descricao2 = "";
-                    }
-
-                    return descricao1.compareToIgnoreCase(descricao2);
+                if (descricao1 != null) {
+                    descricao1 = descricao1.trim();
+                } else {
+                    descricao1 = "";
                 }
+
+                if (descricao2 != null) {
+                    descricao2 = descricao2.trim();
+                } else {
+                    descricao2 = "";
+                }
+
+                return descricao1.compareToIgnoreCase(descricao2);
             });
         }
     }
@@ -349,34 +330,26 @@ public class AppOficina {
 
         if (produtos != null) {
             produtosPorId = Arrays.copyOf(produtos, quantProdutos);
-            Arrays.sort(produtosPorId, new Comparator<Produto>() {
-                @Override
-                public int compare(Produto p1, Produto p2) {
-                    return Integer.compare(p1.hashCode(), p2.hashCode());
-                }
-            });
+            Arrays.sort(produtosPorId, (p1, p2) -> Integer.compare(p1.hashCode(), p2.hashCode()));
 
             produtosPorDescricao = Arrays.copyOf(produtos, quantProdutos);
-            Arrays.sort(produtosPorDescricao, new Comparator<Produto>() {
-                @Override
-                public int compare(Produto p1, Produto p2) {
-                    String descricao1 = p1.getDescricao();
-                    String descricao2 = p2.getDescricao();
+            Arrays.sort(produtosPorDescricao, (p1, p2) -> {
+                String descricao1 = p1.getDescricao();
+                String descricao2 = p2.getDescricao();
 
-                    if (descricao1 != null) {
-                        descricao1 = descricao1.trim();
-                    } else {
-                        descricao1 = "";
-                    }
-
-                    if (descricao2 != null) {
-                        descricao2 = descricao2.trim();
-                    } else {
-                        descricao2 = "";
-                    }
-
-                    return descricao1.compareToIgnoreCase(descricao2);
+                if (descricao1 != null) {
+                    descricao1 = descricao1.trim();
+                } else {
+                    descricao1 = "";
                 }
+
+                if (descricao2 != null) {
+                    descricao2 = descricao2.trim();
+                } else {
+                    descricao2 = "";
+                }
+
+                return descricao1.compareToIgnoreCase(descricao2);
             });
         }
 
@@ -387,27 +360,13 @@ public class AppOficina {
         do {
             opcao = exibirMenuPrincipal();
             switch (opcao) {
-                case 1:
-                    mostrarProduto(localizarProduto());
-                    break;
-                case 2:
-                    filtrarPorPrecoMaximo();
-                    break;
-                case 3:
-                    ordenarProdutos();
-                    break;
-                case 4:
-                    embaralharProdutos();
-                    break;
-                case 5:
-                    listarProdutos();
-                    break;
-                case 0:
-                    System.out.println("FLW VLW OBG VLT SMP.");
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
-                    break;
+                case 1 -> mostrarProduto(localizarProduto());
+                case 2 -> filtrarPorPrecoMaximo();
+                case 3 -> ordenarProdutos();
+                case 4 -> embaralharProdutos();
+                case 5 -> listarProdutos();
+                case 0 -> System.out.println("FLW VLW OBG VLT SMP.");
+                default -> System.out.println("Opção inválida!");
             }
             pausa();
         } while (opcao != 0);
