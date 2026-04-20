@@ -1,60 +1,67 @@
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Comparator;
 
-public class BubbleSort<T extends Comparable<T>> implements IOrdenador<T>{
 
-    private int comparacoes;
-    private int movimentacoes;
-    private double tempoOrdenacao;
-    private double inicio;
+public class Bubblesort<T extends Comparable<T>> implements IOrdenador<T>{
 
-    private double nanoToMilli = 1.0/1_000_000;
+	private long comparacoes;
+	private long movimentacoes;
+	private LocalDateTime inicio;
+	private LocalDateTime termino;	
+	
+	public Bubblesort() {
+		comparacoes = 0;
+		movimentacoes = 0;
+	}
+	
+	@Override
+	public T[] ordenar(T[] dados) {
+		return ordenar(dados, T::compareTo);
+	}
 
-    @Override
-    public int getComparacoes() {
-        return comparacoes;
-    }
+	@Override
+	public T[] ordenar(T[] dados, Comparator<T> comparador) {
+		T[] dadosOrdenados = Arrays.copyOf(dados, dados.length);
+		int tamanho = dadosOrdenados.length;
+		
+		inicio = LocalDateTime.now();
+		
+		for (int posReferencia = tamanho - 1; posReferencia > 0; posReferencia--) {
+			int trocas = 0;
+			for (int posicao = 0; posicao < posReferencia; posicao++) {
+				comparacoes++;
+				if (comparador.compare(dadosOrdenados[posicao], dadosOrdenados[posicao+1]) > 0){
+					swap (posicao, posicao + 1, dadosOrdenados);
+					trocas++;
+				}
+			}
+			if(trocas == 0 )
+				posReferencia = 0;
+		}	
+		termino = LocalDateTime.now();
 
-    @Override
-    public int getMovimentacoes() {
-        return movimentacoes;
-    }
-
-    @Override
-    public double getTempoOrdenacao() {
-        return tempoOrdenacao;
-    }
-
-    private void iniciar(){
-        this.comparacoes = 0;
-        this.movimentacoes = 0;
-        this.inicio = System.nanoTime();
-    }
-
-    private void terminar(){
-        this.tempoOrdenacao = (System.nanoTime() - this.inicio) * nanoToMilli;
-    }
-
-    private void swap(int x, int y, T[] vetor) {
-        T temp = vetor[x];
-        vetor[x] = vetor[y];
-        vetor[y] = temp;
-        movimentacoes+=3;
-    }
-
-    @Override
-    public T[] ordenar(T[] dados) {
-        T[] dadosOrdenados = Arrays.copyOf(dados, dados.length);
-        int tamanho = dadosOrdenados.length;
-        iniciar();
-        for (int i = tamanho - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                comparacoes++;
-                if ((dadosOrdenados[j].compareTo(dadosOrdenados[j+1]) > 0))
-                swap (j, j + 1, dadosOrdenados);
-            }
-        }	
-        terminar();
-        return dadosOrdenados;
-    }
-
+		return dadosOrdenados;
+	}
+	
+	private void swap(int i, int j, T[] vet) {
+		movimentacoes++;
+		
+		T temp = vet[i];
+	    vet[i] = vet[j];
+	    vet[j] = temp;
+	}
+	
+	public long getComparacoes() {
+		return comparacoes;
+	}
+	
+	public long getMovimentacoes() {
+		return movimentacoes;
+	}
+	
+	public double getTempoOrdenacao() {
+	    return  0;
+	}
 }
