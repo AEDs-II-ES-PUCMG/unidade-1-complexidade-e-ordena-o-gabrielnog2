@@ -95,6 +95,9 @@ public abstract class Produto implements Comparable<Produto> {
     public int hashCode(){
         return idProduto;
     }
+    public String getDescricao(){
+        return descricao;
+    }
 
     /**
      * Descrição em string do produto, contendo sua descrição e o valor de venda.
