@@ -73,8 +73,15 @@ public class Pedido implements Comparable<Pedido>{
 
 		double valorPedido = 0;
 		BigDecimal valorPedidoBD;
+		
+		for (int i = 0; i < quantPedidos; i++) {
+			total += pedidos[i].valorDeVenda();
+		}
+		return total;
+	}
 
-		//Sua lógica de cálculo do valor final do pedido aqui
+
+	
 	}
 
 	/**
@@ -179,4 +186,4 @@ public class Pedido implements Comparable<Pedido>{
         }
         return 0;
     }
-}
+

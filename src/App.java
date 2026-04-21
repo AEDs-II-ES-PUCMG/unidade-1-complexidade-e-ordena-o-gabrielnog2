@@ -235,6 +235,9 @@ public class App {
      * elegíveis — todos a partir desse índice — são impressos em O(k), onde k é o número de
      * resultados encontrados, sem recalcular valores abaixo do corte.
      */
+
+    
+
     static void localizarPedidosPremium() {
 
         cabecalho();
@@ -244,8 +247,53 @@ public class App {
             System.out.println("Valor inválido!");
             return;
         }
-       //Sua lógica de localização de pedidos premium aqui
+
+       
+        int esq = 0;
+        int dir = quantPedidos - 1;
+        int primeiroIndice = -1;
+        while (esq <= dir) {
+            int meio = esq + (dir - esq) / 2;
+            if (pedidosOrdenadosPorValor[meio].valorFinal() >= valorCorte) {
+                primeiroIndice = meio;
+                dir = meio - 1;  
+            } else {
+                esq = meio + 1;
+            }
+        }
+
+        if (primeiroIndice == -1) {
+            System.out.println("Nenhum pedido encontrado com valor final >= " + valorCorte);
+            return;
+        }
+
+        System.out.println("Pedidos premium (valor final >= " + valorCorte + "):");
+        for (int i = primeiroIndice; i < quantPedidos; i++) {
+            System.out.println(pedidosOrdenadosPorValor[i].toString());
+        }
     }
+
+    static Produto localizarProdutoPorDescricao() {
+        cabecalho();
+        System.out.println("Localizando um produto por descrição");
+    
+        String descricao = lerTexto("Digite a descrição do produto:");
+        Produto localizado = null;
+    
+        for (int i = 0; i < quantProdutos; i++) {
+            if (produtosOrdenadosPorDescricao[i].getDescricao().equalsIgnoreCase(descricao)) {
+                localizado = produtosOrdenadosPorDescricao[i];
+                break;
+            }
+        }
+    
+        if (localizado == null) {
+            System.out.println("Produto não encontrado.");
+        }
+    
+        return localizado;
+    }
+
 
     static int exibirMenuOrdenadores() {
         cabecalho();
@@ -261,9 +309,9 @@ public class App {
     
     static int exibirMenuComparadores() {
         cabecalho();
-        System.out.println("1 - Critério A: Valor Final do Pedido");
-        System.out.println("2 - Critério B: Volume Total de Itens");
-        System.out.println("3 - Critério C: Índice de Economia (Decrescente)");
+        System.out.println("1 - Valor final");
+        System.out.println("2 - Forma de Pagamento");
+        System.out.println("3 - Ticket Médio por Variedade");
 
         return lerOpcao("Digite sua opção: ", Integer.class);
     }
@@ -362,3 +410,5 @@ public class App {
         teclado.close();    
     }
 }
+
+// atividade avaliativa 20/04/2026

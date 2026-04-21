@@ -9,7 +9,11 @@ import java.util.Comparator;
 public class ComparadorCriterioC implements Comparator<Pedido> {
 
     @Override
-    public int compare(Pedido o1, Pedido o2) {
-        //Sua lógica de comparação aqui
+    public int compare(Pedido p1, Pedido p2) {
+        int cmp = Double.compare(p1.ticketMedio(), p2.ticketMedio());
+        if (cmp != 0) return cmp;
+        cmp = Double.compare(p1.valorFinal(), p2.valorFinal());
+        if (cmp != 0) return cmp;
+        return Integer.compare(p1.codigoPrimeiroItem(), p2.codigoPrimeiroItem());
     }
 }
